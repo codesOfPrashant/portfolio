@@ -1,10 +1,9 @@
-import React from 'react'
-import Hero from './sections/hero'
-import NavBar from './components/NavBar'
-import Experience from './sections/Experience'
-import Skills from './sections/Skills'
-import Footer from './sections/Footer'
-import ContactMe from './sections/ContactMe'
+import Hero from './sections/Hero.jsx'
+import NavBar from './components/NavBar.jsx'
+import Experience from './sections/Experience.jsx'
+import Skills from './sections/Skills.jsx'
+import Footer from './sections/Footer.jsx'
+import ContactMe from './sections/ContactMe.jsx'
 
 const App = () => {
   return (

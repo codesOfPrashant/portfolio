@@ -1,4 +1,3 @@
-import React from 'react'
 import {words} from '../constants/index.js'
 import HeroExperience from '../components/HeroModels/HeroExperience.jsx'
 import { useGSAP} from '@gsap/react'
