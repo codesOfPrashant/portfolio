@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader.jsx";
@@ -11,6 +11,12 @@ const ContactMe = () => {
     email: "",
     message: "",
   });
+  const [hovered, setHovered] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" && window.matchMedia
+      ? window.matchMedia("(min-width: 768px)").matches
+      : true
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +43,19 @@ const ContactMe = () => {
       setLoading(false); // Always stop loading, even on error
     }
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else mq.addListener(handler);
+    setIsDesktop(mq.matches);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else mq.removeListener(handler);
+    };
+  }, []);
 
   return (
     <section id="contactme" className="flex-center section-padding">
@@ -100,14 +119,25 @@ const ContactMe = () => {
                   />
                 </div>
 
-                <button type="submit" disabled={loading}>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  onMouseEnter={() => setHovered(true)}
+                  onMouseLeave={() => setHovered(false)}
+                >
                   <div className="cta-button group">
                     <div className="bg-circle" />
-                    <p className="text">
+                    <p
+                      className="text"
+                      style={
+                        isDesktop && !hovered ? { color: "#111" } : {}
+                      }
+                    >
                       {loading ? "Sending..." : "Send Message"}
                     </p>
                     <div className="arrow-wrapper">
-                      <img src="/images/arrow-right.svg" alt="arrow" />
+                      {/* hide arrow on small devices, show from md and up */}
+                      <img src="/images/arrow-right.svg" alt="arrow" className="hidden md:block" />
                     </div>
                   </div>
                 </button>
